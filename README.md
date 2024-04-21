@@ -13,9 +13,18 @@ This project is a solution for a big programming conference planning. It helps t
 - All talk lengths are either in minutes (not hours) or lightning (5 minutes).
 - Presenters will be very punctual; there needs to be no gap between sessions.
 
-## Implementation
+# Project Conference Session Track API
 
-The solution is implemented using Java 17 with Spring Boot. It uses Lombok for reducing boilerplate code and functional programming for a clean and concise code. It also uses `ByteArrayOutputStream` for storing files in memory.
+This project utilizes OpenAPI for API documentation. The documentation is available on [Swagger UI](https://conferenceapi-c63l.onrender.com/swagger-doc/swagger-ui/index.html#/).
+
+## Deployment on Render using Docker
+
+The project has been deployed on Render using Docker. You can access the deployment at the following link: [Deployment on Render](https://conferenceapi-c63l.onrender.com/).
+
+## Excel Template
+
+An Excel template is included to facilitate the correct functioning of the project. You can find it in the [Excel Template](talk.xlsx) file.
+
 
 ## How to Run
 
@@ -83,3 +92,53 @@ Track 2:
 ## Note
 
 The solution may give a different ordering or combination of talks into tracks. This is acceptable; you don’t need to exactly duplicate the sample output given here.
+
+## Explaining the Dockerfile
+
+The `Dockerfile` you provided defines how your Docker image is built. Here's an explanation for each part:
+
+```dockerfile
+# Build stage
+FROM maven:3.8.1-openjdk-17-slim AS build
+```
+This line starts the build stage and sets the base image as `maven:3.8.1-openjdk-17-slim`. This image contains Maven and OpenJDK 17, which will be used to build your application.
+
+```dockerfile
+WORKDIR /app
+```
+Sets the working directory in the container to `/app`.
+
+```dockerfile
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+```
+Copies the `pom.xml` file to the container and then runs `mvn dependency:go-offline -B` to download all the dependencies needed to build your application.
+
+```dockerfile
+COPY src ./src
+RUN mvn package -DskipTests
+```
+Copies the `src` directory to the container and then runs `mvn package -DskipTests` to build your application without running the tests.
+
+```dockerfile
+# Run stage
+FROM openjdk:17-alpine
+```
+Starts a new stage for running your application. The base image is `openjdk:17-alpine`, which contains OpenJDK 17 on an Alpine Linux image, which is a very lightweight Linux distribution.
+
+```dockerfile
+EXPOSE 9000
+```
+Informs Docker that the container will listen on port 9000.
+
+```dockerfile
+COPY --from=build /app/target/ConferenceSessionTrackAPI*.jar app.jar
+```
+Copies the JAR file built in the build stage to the run container. The JAR file is renamed to `app.jar`.
+
+```dockerfile
+ENTRYPOINT ["java","-jar","/app.jar"]
+```
+Defines the command that will be run when the container starts. In this case, it's `java -jar /app.jar`, which starts your application.
+
+In summary, this `Dockerfile` defines two stages: a build stage that builds your application and a run stage that runs your application. This is done to keep the final image as small as possible, as it doesn't include the tools needed to build your application, only the ones needed to run it.
