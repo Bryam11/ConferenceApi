@@ -1,7 +1,11 @@
 FROM openjdk:17-alpine
 
+WORKDIR /app
+
+COPY . .
+
+RUN ./mvnw package -DskipTests
+
 EXPOSE 9000
 
-COPY ./target/ConferenceSessionTrackAPI*.jar app.jar
-
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD ["java", "-jar", "target/ConferenceSessionTrackAPI*.jar"]
