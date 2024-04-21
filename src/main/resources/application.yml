@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ConferenceSessionTrackAPI
+
+springdoc:
+  api-docs:
+    path: /swagger-doc/v3/api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /swagger-doc/swagger-ui.html
