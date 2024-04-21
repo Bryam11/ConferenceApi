@@ -19,7 +19,11 @@ The solution is implemented using Java 17 with Spring Boot. It uses Lombok for r
 
 ## How to Run
 
-Provide instructions on how to run the application.
+To run the application, you need to have Java 17 installed on your machine. You can run the application using the following command:
+
+```bash
+./mvnw spring-boot:run
+```
 
 ## Sample Input
 
