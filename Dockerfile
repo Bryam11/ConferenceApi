@@ -1,11 +1,19 @@
-FROM openjdk:17-alpine
+# Etapa de construcción
+FROM maven:3.8.1-openjdk-17-slim AS build
 
 WORKDIR /app
 
-COPY . .
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-RUN ./mvnw package -DskipTests
+COPY src ./src
+RUN mvn package -DskipTests
+
+# Etapa de ejecución
+FROM openjdk:17-alpine
 
 EXPOSE 9000
 
-CMD ["java", "-jar", "target/ConferenceSessionTrackAPI*.jar"]
+COPY --from=build /app/target/ConferenceSessionTrackAPI*.jar app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
