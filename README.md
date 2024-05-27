@@ -15,7 +15,7 @@ This project is a solution for a big programming conference planning. It helps t
 
 # Project Conference Session Track API
 
-This project utilizes OpenAPI for API documentation. The documentation is available on [Swagger UI](https://conferenceapi-c63l.onrender.com/swagger-doc/swagger-ui/index.html#/).
+This project utilizes OpenAPI for API documentation. The documentation is available on [Swagger UI](https://conferenceapi-c63l.onrender.com/swagger-doc/swagger-ui.html).
 
 ## Deployment on Render using Docker
 
