@@ -9,3 +9,14 @@ springdoc:
       enabled: true
   swagger-ui:
     path: /swagger-doc/swagger-ui.html
+
+
+management:
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://192.168.3.29:9411/api/v2/spans
+
